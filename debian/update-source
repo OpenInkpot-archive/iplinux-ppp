@@ -1,0 +1,43 @@
+# cd upstream/tarballs/
+# tar xzf ppp-cvs-*.tar.gz
+# cp -a ppp ppp.OLD
+# rsync --delete --archive --verbose --compress ppp.samba.org::ftp/unpacked/ppp/ ppp/ --exclude=CVS/ --exclude-from=../../debian/update-source
+# tar czvvf ppp-cvs-$(date +%Y%m%d).tar.gz ppp/
+.cvsignore
+/TODO
+/ppp.texi
+/aix4/
+/freebsd-2.0/
+/freebsd-2.2.8/
+/freebsd-3.0/
+/netbsd-1.1/
+/netbsd-1.2/
+/NeXT/
+/osf1/
+/sunos4/
+/svr4/
+/ultrix/
+*.aix4
+*.bsd
+*.netbsd-1.2
+*.NeXT
+*.osf
+*.sunos4
+*.svr4
+*.ultrix
+sys-aix4.c
+sys-bsd.c
+sys-NeXT.c
+sys-osf.c
+sys-sunos4.c
+sys-svr4.c
+sys-ultrix.c
++ /linux/Makefile.top
+/linux/*
+# these files are missing from the rsync archive
+/include/linux/if_ether.h
+/contrib/
+# these files are shipped with official releases, but we ignore then anyway
+#/solaris/
+#*.sol2
+#sys-solaris.c

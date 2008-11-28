@@ -1,0 +1,677 @@
+ppp (2.4.1-4) unstable; urgency=medium
+
+  * Fixed lockfile handling for devfs. (Closes: #103794)
+  * Added dependency on procps. (Closes: #104066)
+  * Added patch to count packets on linux. (Closes: #104276)
+  * Added patch for more memory management fixes (Closes: #104275)
+
+ -- Michael Beattie <mjb@debian.org>  Sat, 21 Jul 2001 18:11:53 +1200
+
+ppp (2.4.1-3) unstable; urgency=low
+
+  * Removed signal handling patch. causes breakage on many (almost all)
+    configurations different to Daniel's (holdoff 0, persist). Bug reopened.
+  * Added patch from Russell Coker to add option to specify ip-up script.
+    (Closes: #101587)
+  * Added patch (slightly modified) from Russell Coker that fixes compile
+    time warning. Not overly worrying, but what the hell. (Closes: #101584)
+  * Added patch from Russell Coker to make setipaddr() available for
+    portslave (Closes: #101830)
+  * Modified utils.c to correctly build a lockfile when using devfs.
+    (Closes: #101372, #101754)
+  * Added Spanish debconf Template. Thanks to Carlos Valdivia.
+    (Closes: #102636)
+  * Correctly check f->maxtermtransmits in fsm.c so that lcp-max-terminate
+    is honoured. (Closes: #98728)
+  * Added reference to maxfail option from persist description in manpage.
+    (Closes: #102313)
+
+ -- Michael Beattie <mjb@debian.org>  Thu,  5 Jul 2001 00:04:54 +1200
+
+ppp (2.4.1-2) unstable; urgency=low
+
+  * Using fixed debhelper, update-modules now only gets called if it is
+    actally available. (Closes: #94682)
+  * Removed start-stop-daemon call in prerm, dh_installinit does this now.
+  * removed suidunregister calls in postrm (oops)
+  * Added pppoe patch, we can now use kernel mode pppoe :> - Paul says he's
+    working on a better patch for 2.4.2, but I want pppoe for my own
+    purposes... go figure. (Closes: #88844)
+  * Added patch from Daniel Ginsburg for signal handling bug.
+    (Closes: #100028)
+  
+ -- Michael Beattie <mjb@debian.org>  Sat, 16 Jun 2001 06:24:35 +1200
+
+ppp (2.4.1-1) unstable; urgency=low
+  
+  * New upstream release
+  * get-up-to-date upload, before trying to squash a lot of the annoying bugs
+    against ppp.
+  * Added build dependency on debhelper. Closes: #68692, #68751
+  * Creating udeb for debian-installer. Thanks to David Whedon. 
+    Closes: #79864
+  * check for location of kill in poff, to account for occasional brokeness
+    of procps. Joey Hess suggested a simple "kill", and let PATH do the
+    rest, but I feel that may break in some cases. Closes: #82771
+  * Added Swedish, German, French, Dutch and Portuguese templates for debconf.
+    Thanks to André Dahlqvist, Joerg Rieger, Thomas Morin, Ivo Timmermans,
+    and Carlos Laviola. Closes: #83281, #84264, #83797, #92534, #93220
+  * Fixed Bad characters in chat manpage. Closes: #75921
+  * Added Patch to fix memory leak. Closes: #93371
+  * Stopped using suidmanager.
+
+ -- Michael Beattie <mjb@debian.org>  Tue,  8 Aug 2000 23:13:58 +1200
+
+ppp (2.4.0f-1) unstable; urgency=low
+
+  * New upstream release
+  * New version Closes: #23784
+  * Fixed postinst paper bag bug. Closes: #68673, #68682, #68668, #68684
+    (I love it when people dont look to see if a bug is already reported.)
+  * Removed PATH definition from /etc/init.d/ppp. Closes: #66171
+  * modified plog to also grep for 'chat[' if tailing syslog.
+
+ -- Michael Beattie <mickyb@es.co.nz>  Mon,  7 Aug 2000 17:10:50 +1200
+
+ppp (2.4.0b4-1) unstable; urgency=low
+
+  * New upstream release
+  * New maintainer
+  * Added postinst section to create /dev/ppp. Closes: #65086
+  * Added patches to pon from Josip Rodin to allow extra parameters to
+    pppd. also uses /etc/ppp/ppp_on_boot if present and executable.
+    Closes: #66778
+  * Updated pon.1 to reflect above. Thanks Josip.
+  * Tidied Debian patches. Closes: #63678
+  * Moved to doogie's dbs package format.
+  * Acknowledged NMU Patches. Again, thanks Josip. Closes: #58216, #60356
+  * Adjusted plog to tail syslog, if ppp.log exists, but is zero-length
+  * Made pppd world readable. Closes: #60014
+
+ -- Michael Beattie <mjb@debian.org>  Fri, 28 Jul 2000 20:37:14 +1200
+
+ppp (2.3.11-1.4) frozen unstable; urgency=low
+
+  * NMU, fixed usage of dpkg --compare-versions. $2 in the install scripts
+    is empty if this is the first time ppp is installed. This caused some
+    spurious output (not sure if it caused a failure or not, but it is
+    definitely broken).
+
+ -- Ben Collins <bcollins@debian.org>  Thu, 30 Mar 2000 08:45:17 -0500
+
+ppp (2.3.11-1.3) frozen unstable; urgency=low
+
+  * Conditionalized suidunregister call in preinst, closes: 60330.
+    [several merged important bugs]
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Tue, 14 Mar 2000 13:13:57 +0100
+
+ppp (2.3.11-1.2) frozen unstable; urgency=low
+
+  * Non-maintainer upload, approved by the maintainer.
+  * Remove the suidregister mess caused by file diversions in old packages
+    in preinst, closes: #57933.
+  * Don't ship {chap,pap}-secrets or `provider' chatscript/peer file as
+    conffiles, but as examples. Everybody needs to modify these files to
+    use them, so dpkg conffile prompt gets to be annoying. Instead, if these
+    files don't already exist in their regular locations, install these
+    examples in postinst, and remove them in postrm on purge, closes: #58170.
+  * Fixed a couple of typos in docs/comments, and explicitely tightened
+    some permissions. Updated the copyrights and licenses (yuck! yuck! yuck!).
+  * Default value for number of redial attempts with persist option was
+    changed from 0 to 10 upstream by introducing a new `maxfail' option.
+    It won't be reverted because it can cause unpredictable results, so
+    a note (with rationale) was added: in README.Debian, and in postinst
+    through debconf or if debconf doesn't exist, through normal cat/read,
+    closes: #51588. (added Suggests: debconf to control file for that)
+  * Added the following commented out options with descriptions to the
+    options file: maxfail, nopersist, persist, demand, idle, holdoff,
+    connect-delay.
+  * Partially fixed bug #48478 in plog, by making it tail /var/log/syslog,
+    grepping for ' pppd\[', if /var/log/ppp.log is not found. Maybe it
+    should print out a warning message about local2, not sure. Added a note
+    in plog(1) about the local2.*\t-/var/log/ppp.log in /etc/syslog.conf.
+  * If they exist, chown root.adm and chmod 640 ppp.log and ppp-connect-errors
+    files in /var/log, with postinst, just in case (the former file will be
+    set up that way by sysklogd's daily cron).
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Wed, 16 Feb 2000 14:25:22 +0100
+
+ppp (2.3.11-1.1) frozen unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Made preinst script properly remove diversions and diverted files
+    from both older versions of ppp-pam, closes: #50723, #38732, #57855.
+  * Init script now runs poff to stop and/or restart properly,
+    closes: #56962, #39494.
+  * Marked /etc/chatscripts as a suid directory, root.dip 2750,
+    closes: #53493.
+  * Used most of the ideas from Petr Slansky <slansky@usa.net> for a
+    customizable ppp_on_boot file, while maintaining compatibility with
+    people's old non-runnable ppp_on_boot files, closes: #45424.
+  * Cleaned up, updated and/or renamed most of the documentation and
+    examples, closes: #47570, #57853 (first part).
+  * Added missing .TP near the `nomagic' description in pppd(8),
+    closes: #52925 (note: the IPv6 thing might still be wrong, didn't test).
+  * Increased chat REPORT buffer, with patch from the bug report,
+    closes: #57467.
+  * Added a Replaces: on ppp-pam, so dpkg can ditch it properly
+    (Conflicts+Replaces), the second part of second part of #57853. :)
+  * Added check whether $1 is remove or purge in postrm, the third part
+    of #57853.
+  * Changed s/tail $*/exec tail "$@"/ in plog, and added the exec in pon.
+  * Fixed some minor errors in the pon(1) manual page, added files'
+    descriptions.
+  * Added Build-Depends: libpam0g-dev, updated for Policy 3.1.1.
+    Used tmp directory abstraction in the rules file. Removed several
+    cruft files from debian/.
+  * Noting bugs fixed in 2.3.11-1, by Phil:
+    + new upstream version closes: #57062.
+    + ppp-pam merge back into ppp, as the base system now includes PAM,
+      closes: #48237.
+    + marked /etc/pam.d/ppp as conffile, closes: #48387 (that report
+      doesn't seem to exist...?).
+
+ -- Josip Rodin <jrodin@jagor.srce.hr>  Sat, 12 Feb 2000 00:15:43 +0100
+
+ppp (2.3.11-1) frozen unstable; urgency=medium
+
+  * New upstream release
+  * get rid of ppp/ppp-pam split now that PAM is in base
+  * fix spelling of debian/ppp-pam.conffiles. Doh! (closes: 48387)
+  * while I have a feeling that several of the bugs reported against
+    ppp are fixed by this upstream, I've not had time to confirm it,
+    so it may be best to wait for favourable reports, or an NMU, since 
+    I'm off on holiday later today and won't be able to do any more
+    for a week.
+
+ -- Philip Hands <phil@hands.com>  Fri, 11 Feb 2000 04:06:44 +0000
+
+ppp (2.3.10-2) unstable; urgency=low
+
+  * apply patch from Ben Collins <bcollins@debian.org> (closes: #38639, #37869)
+  * add dependency ppp-pam --> libpam-modules (closes: #47563)
+
+ -- Philip Hands <phil@hands.com>  Mon, 25 Oct 1999 14:38:41 +0100
+
+ppp (2.3.10-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Philip Hands <phil@hands.com>  Mon, 11 Oct 1999 23:49:14 +0100
+
+ppp (2.3.9-1) unstable; urgency=low
+
+  * New upstream release (closes: #42030)
+  * applied upstream ppp-2.3.9-patch1
+  * remove bash-isms from debian/rules (closes: #43262)
+  * change all references to /dev/cua* to /dev/ttyS* (closes: #43487)
+  * add a version dependency on sysvinit (closes: #41233)
+  * handle non-existent {pap,chap}-secrets (closes: #40884, #36859)
+  * /etc/pam.d/ppp now uses pam_unix.o ** NEEDS TESTING ** (closes: #39230)
+
+ -- Philip Hands <phil@hands.com>  Sat, 28 Aug 1999 22:22:36 +0100
+
+ppp (2.3.8-1) unstable; urgency=low
+
+  * New upstream release
+  * revert to upstream pppstats code.  Hopefully (closes: #39091)
+  * make sure /etc/ppp ends up belonging to root.dip
+    (closes: #39116, #39558, #39060, #38833, #38824, #38823, #38775, #38682,
+             #40717)
+  * stop postinst from editing /etc/syslog.conf (closes: #38769)
+  * postinst no longer worries if ``provider'' files don't exist
+    (closes: #38768)
+  * patch pppd/fsm.c to stop LCP terminate requests when lcp-max-terminate
+    is 0 (closes: #23734)
+  * add cbcp support
+
+ -- Philip Hands <phil@hands.com>  Wed, 30 Jun 1999 21:10:53 +0100
+
+ppp (2.3.7-4) unstable; urgency=low
+
+  * make use of debhelper's new ability to suidregister directories
+  * fixed poff's ps|grep call (closes: #35661, #38418)
+  * dh_suidregister bug now fixed (closes: #35673, #35718, #37708)
+  * change chgrp dip's to chown root.dip's in rules, to get round some
+    dh_suidregister/fakeroot weirdness
+  
+  And from an NMU by Christian Kurz <shorty@debian.org>
+  * Applied patch from Torsten Landschoff (closes: #35064, #35180,
+    #35817, #35857, #36557)
+  * Applied patch from Harmut Koptein (closes: #38289)
+
+ -- Philip Hands <phil@hands.com>  Sun, 30 May 1999 10:40:34 +0100
+
+ppp (2.3.7-3) unstable; urgency=low
+
+  * New pon.1 man page from Othmar Pasteka.
+  * set perms on etc/ppp (and some others) in postinst
+    this _really_ (closes: #35348)
+
+ -- Philip Hands <phil@hands.com>  Mon,  5 Apr 1999 10:36:17 +0100
+
+ppp (2.3.7-2) unstable; urgency=low
+
+  * set flags to 1 for hide_password in upap.c, so it actually gets set.
+  * remove Christian's bogus preinst
+  
+  Changes for 2.3.7-1, which was broken, so was not published:
+  * New upstream release
+  
+  Christian Kurz's changes for 2.3.6-1.1:
+  * ppp-manual rewritten (closes: #14133)
+  * upstream release of chat fixed (closes: #16267)
+  * routing is set up correct (closes: #17287) 
+  * poff allows to specifiy the process to kill (closes: #17410)
+  * ppp now works with the newest kernels (closes: #20091, #29964)
+  * ppp should suggest pppconfig is obsolete, because both are base files 
+    (closes: #20143)
+  * ppp won't install is solved (closes: #20708)  
+  * ppp based on the new upstream release (closes: #22243, #26429 #21921, #22064)
+  * provider-example changed (closes #18475)
+  * changed the location of connect-errors (closes: #15483)
+  * rewrote the redialer-script (closes: #26230)
+  * fixed permissions of /etc/ppp (closes: #27246)
+  * use the new pon.1 man page which was written by Othmar Pasteka 
+  * /etc/ppp/options doesn't get overriden (closes: #17543)
+  * static-ip patch included (closes: #22497)
+  * pon command works (closes: #22963)
+  * messages appear now in the logfile (closes: #23868)
+  * disconnect sequence is correct (closes: #24584)
+  * upgrading of ppp now works (closes: #25397)
+  * ip-up/down race condition is removed (closes: #30935)
+  * poff can be run by the same person as pon (closes #33773)
+  * ip-up and ip-down won't be executed simultaneously (closes: #34377)
+  * new poff script (closes: #34927)
+  * /etc/ppp/options corrected (closes: #29647)
+  * ppp.log-permission are correct and the logfile is cycled (closes: #25901)
+
+ -- Philip Hands <phil@hands.com>  Sat,  3 Apr 1999 16:49:26 +0100
+ 
+ppp (2.3.6-1) unstable; urgency=low
+
+  * New upstream release
+  * switch to debhelper
+  * prevent passwords apearing in syslog messages (closes: #20818, #21213, #31218)
+  * use pon.1 man page written by othmar@tron.priv.at (closes: #19967)
+  * use John Hasler's revised poff (closes: #25365, #30435, #32365)
+  * make init.d script use rc?.d number of 14 (closes: #28212)
+  * add example scripts from Yann Dirson (closes: #16836)
+  * reduce logging in chat, unless ``verbose'' is set (closes: #24017)
+  * mention pap-secrets fixup in README.debian (closes: #16905)
+  * create dummy upstream Changelog (closes: #20187)
+  * set ppp-pam's priority to optional (closes: #21125)
+  
+ -- Philip Hands <phil@hands.com>  Mon, 22 Mar 1999 16:00:01 +0000
+
+ppp (2.3.5-2) frozen unstable; urgency=low
+
+  * Apply patch from linux-ppp, via Eloy A. Paris, that allows IPX over PPP
+  * fix default login line in pap-secrets (closes: #23508)
+  * get rid of cron.daily, since syslogd's cron.weekly is dealing with the
+    log aging (closes: #22059)
+
+ -- Philip Hands <phil@hands.com>  Mon, 15 Jun 1998 17:28:39 +0100
+
+ppp (2.3.5-1) frozen unstable; urgency=low
+
+  * make /etc/chatscripts and /etc/ppp/peers SGID (closes: #22501)
+  * use new poff from steveh@eecs.umich.edu (closes: #22391, #22322, #20994)
+
+ -- Philip Hands <phil@hands.com>  Tue, 26 May 1998 10:18:13 +0100
+
+ppp (2.3.5-0.1) frozen unstable; urgency=low
+
+  * New upstream bugfix release.
+  * Non-maintainer release.
+
+ -- Joel Klecker <jk@espy.org>  Wed, 13 May 1998 19:36:57 -0700
+
+ppp (2.3.3-5) unstable; urgency=low
+
+  * add options to poff, to allow alternative signals to be sent
+    (closes: #18618)
+  * rebuild to get rid of spurious diff contents (possible dpkg-dev bug ?)
+    (closes: #18824)
+  * add /usr/doc/ppp-pam symlink to point at ppp's docs (closes: #19393)
+
+ -- Philip Hands <phil@hands.com>  Mon, 16 Mar 1998 12:01:32 +0000
+
+ppp (2.3.3-4) unstable; urgency=low
+
+  * reset logging after PAM grabs it, and make utmp/wtmp happen again
+    (closes: #18544)
+
+ -- Philip Hands <phil@hands.com>  Tue, 24 Feb 1998 11:38:28 +0000
+
+ppp (2.3.3-3) unstable; urgency=medium
+
+  * use --quiet in init.d script (closes: #18226)
+  * fix unchecked prompting in postinst (closes: #12623)
+  * PAM logins now work (used Cristian Gafton <gafton@redhat.com>'s patch
+    which seems to be for a later version of PAM, but worked anyway after
+    a minor tweak).
+  * use the /etc/pam.d/ppp file from redhat as well.
+
+ -- Philip Hands <phil@hands.com>  Mon, 23 Feb 1998 23:45:16 +0000
+
+ppp (2.3.3-2) unstable; urgency=low
+
+  * make ip-(up|down) executable (closes: #11449, #16113)
+  * put /etc/pam.d/ppp in ppp-pam (closes: #16111)
+  * add console messages to /etc/init.d/ppp (closes: #16629)
+  * add IPPARAM to ip-(up|down)  (closes: #16695)
+  * improve comments in ip-(up|down) (closes: #17126)
+
+ -- Philip Hands <phil@hands.com>  Tue, 10 Feb 1998 23:47:37 +0000
+
+ppp (2.3.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Philip Hands <phil@hands.com>  Fri,  6 Feb 1998 12:13:33 +0000
+
+ppp (2.3.2-3) unstable; urgency=low
+
+  * automate the version dependency in ppp-pam
+
+ -- Philip Hands <phil@hands.com>  Thu, 18 Dec 1997 17:14:34 +0000
+
+ppp (2.3.2-2) unstable; urgency=low
+
+  * add creation of ppp-pam .deb
+  * ppp-pam: use libpam0g and add /etc/pam.d/ppp
+  * add use of run-parts ip-{up,down}.d
+
+ -- Philip Hands <phil@hands.com>  Sun, 14 Dec 1997 21:12:58 +0000
+
+ppp (2.3.2-1) unstable; urgency=low
+
+  * New upstream release
+  * get rid of dependence on libpam (closes: #15665)
+  * applied ms-chap patch from Kent Robotti <robotti@erols.com>
+
+ -- Philip Hands <phil@hands.com>  Sat,  6 Dec 1997 19:28:42 +0000
+
+ppp (2.3.1-6) unstable; urgency=low
+
+  * Fix feeble typo in postinst
+
+ -- Philip Hands <phil@hands.com>  Thu,  6 Nov 1997 00:23:09 +0000
+
+ppp (2.3.1-5) unstable; urgency=low
+
+  * fix /tmp/$$ security hole in postinst (#11781)
+  * stop postinst trying to chmod non-existent files (#14519,#14279)
+  * fix permissions on /usr/include/net/slcompress.h (#14557)
+
+ -- Philip Hands <phil@hands.com>  Wed,  5 Nov 1997 12:38:48 +0000
+
+ppp (2.3.1-4) unstable; urgency=low
+
+  * unpatch pppstats so that it gets compiled OK with libc6
+
+ -- Philip Hands <phil@hands.com>  Wed,  5 Nov 1997 11:45:10 +0000
+
+ppp (2.3.1-3) unstable; urgency=medium
+
+  * re-enable setting of serial port speed (disabled in error)
+  * fix permissions on /etc/chatscripts (#14166)
+  * tidy up poff (#14209)
+
+ -- Philip Hands <phil@hands.com>  Wed, 29 Oct 1997 00:35:32 +0000
+
+ppp (2.3.1-2) unstable; urgency=medium
+
+  * Set Maintainer: to me.
+  * Add IPX support, and disable it in options
+
+ -- Philip Hands <phil@hands.com>  Fri, 25 Jul 1997 03:24:04 +0100
+
+ppp (2.3.1-1) experimental; urgency=low
+
+  * Non-Maintainer release: I think it is necessary to get this stuff working soon
+    and the experimental version still has my maintainer name.
+  * Updated to "non-beta" release which was advertised as tested (Joke! Joke!).
+  * Included patch to fix the ppp kernel sourcecode so that it compiles.
+  * Warning: TCP stalls in a regular fashion. f.e. on an SMTP connection.
+    If someone wants to fix things. Beats me.
+  * demand dialing requires kernel ppp sourcecode update or newer kernel (than
+    available on July 23,1997)
+  * Shadow password expiration disabled due to
+    use of non-exported function of the shadow library.
+  * pppstats does not compile due to incompatibility with kernel 2.0.30
+    kernel symbols.
+  * pppd source patches so that chat-scripts do not stall.
+  * STATIC IP patches applied
+  * poff: Do not rely on pid file to kill pppd 
+  * plog: Allow options to be passed on to "tail".
+
+ -- Christoph Lameter <clameter@debian.org>  Tue, 22 Jul 1997 23:19:23 -0700
+
+ppp (2.3b3-3) experimental; urgency=low
+
+  * All changes done to the regular ppp package revisions applied to the
+    experimental one.
+  * PAM support
+  * High baudrate Support
+  * Shadow support
+
+ -- Christoph Lameter <clameter@debian.org>  Sat, 5 Apr 1997 21:30:55 -0800
+
+ppp (2.3b3-2) experimental; urgency=low
+
+  * ppp compiled with newest debmake and thus suidmanager support
+  * pppstats does not compile not included
+  * Note: ppp 2.3b3 is experimental and limited. Will stay in experimental.
+    Only an upstream release fixing the gaps can make ppp 2.3 advance into
+    unstable. Bug reports wanted.
+  * Remove /etc/ppp.chatscript and /etc/ppp.options_out
+    instead use /etc/ppp/peers/provider and /etc/charscripts/provider
+    according to new upstream ppp security scheme (about which I am kind of
+    puzzled right now).
+  * Modified scripts / init.d according to new security scheme.
+  * postinst converts from old setup scheme and makes dialup scripts +
+    options file more secure.
+  * Permissions on binary were screwed up in -1 release.
+
+ -- Christoph Lameter <clameter@debian.org>  Thu, 21 Nov 1996 21:32:35 -0800
+
+ppp (2.3b3-1) experimental; urgency=low
+
+  * pppd made only executable by group dip
+  * Upstream upgrade to BETA
+
+ -- Christoph Lameter <clameter@debian.org>  Fri, 8 Nov 1996 15:13:45 -0800
+
+ppp (2.2.0f-17) unstable; urgency=low
+
+  * pppd is not stopped and started on upgrade (only happened with ppp on bootup enabled)
+
+ -- Christoph Lameter <clameter@debian.org>  Tue, 5 Nov 1996 06:56:35 -0800
+
+ppp (2.2.0f-16) unstable; urgency=low
+
+  * chatscript aborts on no dialtone
+  * stripped pppstats
+
+ -- Christoph Lameter <clameter@debian.org>  Thu, 24 Oct 1996 10:11:07 -0700
+
+ppp (2.2.0f-15) unstable; urgency=low
+
+  * debmake 0.91 applied to ppp
+  * debmake takes over the /etc/init.d and the postrm stuff.
+
+ -- Christoph Lameter <clameter@debian.org>  Mon, 21 Oct 1996 18:58:19 -0800
+
+ppp (2.2.0f-14) unstable; urgency=low
+
+  * debmake problem with install scripts
+
+ -- Christoph Lameter <clameter@debian.org>  Thu, 17 Oct 1996 07:20:20 -0800
+
+ppp (2.2.0f-13) unstable; urgency=low
+
+  * Added \q after the password in ppp.chatscript
+
+ -- Christoph Lameter <clameter@debian.org>  Mon, 14 Oct 1996 17:59:45 -0800
+
+ppp (2.2.0f-12) unstable; urgency=low
+
+  * Added persist option to default configuration file ppp.options_out
+    to have pppd keep on dialing until connection is established.
+  * Added restarting of logging daemons to cron.daily script
+
+ -- Christoph Lameter <clameter@debian.org>  Sat, 12 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-11) unstable; urgency=medium
+
+  * Postinst also customizes /etc/ppp/options.ttyXX
+  * Changed the bad example in /etc/ppp/options.ttyXX.
+  * Added log rotation
+  * Fixed persist option in pppd so that it waits 10 seconds before
+    reconnecting. Otherwise the reconnect attempt fails.
+  * Do not abort pppd on script failure with the persist option on.
+  * Added manpages for pon,poff,plog
+
+ -- Christoph Lameter <clameter@debian.org>  Mon, 7 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-10) unstable; urgency=medium
+
+  * Tested the automatic-ppp-on-boot function
+  * Fixed bug in /etc/init.d/ppp (was not compatible with pon)
+
+ -- Christoph Lameter <clameter@debian.org>  Sun, 6 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-9) unstable; urgency=medium
+
+  * Convenience scripts ( pon, poff, plog ) to control/monitor link
+  * Links were not activated in the last change
+  * Syslog output redirected to a separate file in /var/log/ppp.log
+  * Updated Documentation in README.debian
+  * Corrected changelog
+  * Finally got through to using ppp/mgetty on my home system and
+    found some inconveniences in the config files.
+  * moved /etc/ppp/chatscript to /etc/ppp.chatscript since /etc/ppp is not
+    to be accessed from userspace.
+  * New configuration file /etc/ppp.options_out for outbound options to
+    be able to handle mixed (inbound/outbound) usage.
+    I am not yet satisfied with the mixed setups such as I have at home.
+
+ -- Christoph Lameter <clameter@debian.org>  Sat, 5 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-8) unstable; urgency=low
+
+  * links for /etc/init.d/ppp installed again
+  * pppd will come up on startup if /etc/ppp/ppp_on_boot exists
+
+ -- Christoph Lameter <clameter@debian.org>  Wed, 2 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-7) unstable; urgency=low
+
+  * fixed a couple of bugs in postinst script.
+  * pppd now stripped
+  * etc/rc.d links for /etc/init.d/ppp not installed anymore
+  * /etc/init.d revised
+
+ -- Christoph Lameter <clameter@debian.org>  Wed, 2 Oct 1996 09:00:00 -0800
+
+ppp (2.2.0f-6) unstable; urgency=low
+
+  * pppstats program was not included
+
+ -- Christoph Lameter <clameter@debian.org>  Sun, 29 Sep 1996 09:00:00 -0800
+
+ppp (2.2.0f-5) unstable; urgency=low
+
+  * Updated standards
+  * Updated Documentation in /etc/ppp/options
+
+ -- Christoph Lameter <clameter@waterf.org>  Fri, 27 Sep 1996 09:00:00 -0800
+
+ppp (2.2.0f-4) unstable; urgency=low
+
+  * Added example file for options.ttyXX
+  * Renamed to ppp to merge isp-ppp with ppp
+  * New maintainer for ppp package
+  * pppd runs setsuid
+
+ -- Christoph Lameter <clameter@waterf.org>  Wed, 25 Sep 1996 09:00:00 -0800
+
+isp-ppp (2.2.0f-2) unstable;urgency=low
+
+  * Added "Conflicts: ppp" to control
+isp-ppp (2.2.0f-1) unstable;urgency=low
+
+  * Added pap-secrets file for mgetty integration
+  * Reworked control
+
+ -- Christoph Lameter <clameter@waterf.org>  Fri, 6 Sep 1996 09:00:00 -0800
+
+isp-ppp (2.2.0f-0) unstable;urgency=low
+
+  * Added patch to fix trumpet winsock problems
+  * Update to standards 2.1.0.0
+  * Named package isp-ppp to be able to release alternate pppd into debian
+    distribution
+  * pppd installed suid for regular dialup people who want to activate pppd
+
+ -- Christoph Lameter <clameter@waterf.org>  Fri, 6 Sep 1996 09:00:00 -0800
+
+Thu Jul 25 22:47:37 PDT 1996 Christoph Lameter <clameter@fuller.edu>
+
+	* Added remote DNS and WINS configuration ability to pppd
+	  ( See comments in /etc/ppp/options)
+        * Build on top of ppp of Alvar
+
+Sun Jul  7 17:01:22 BST 1996 Alvar Bray <alvar@debian.org>
+        * Setup to build/install pppstats utility.
+        * Modified to build on any archticture, Thanks due to 
+          Yambo <llucius@millcomm.com>.
+        * Version 2.2.0f-3 released.
+
+Sun May 26 14:28:39 BST 1996 Alvar Bray <alvar@debian.org>
+        * Applied patches from Marek Michalkiewicz 
+          <marekm@i17linuxb.ists.pwr.wroc.pl> to suport shadow
+          passwords.
+        * Added Architecture and priority fields to debian.control.
+        * Version 2.2.0f-2 released.
+
+Wed May  1 19:54:15 BST 1996  Alvar Bray <alvar@debian.org>
+        * Updated to upstream version 2.2.0f.
+        * Changed version to 2.2.0f-1.
+
+Sat Mar 23 09:39:49 GMT 1996  Alvar Bray <alvar@debian.org>
+        * Modified runlevel change start/kill links.
+        * Removed symlink /usr/include/net/route.h
+        * Revision 3 released.
+
+Tue Jan 30 23:14:51 GMT 1996  Alvar Bray <alvar@meiko.co.uk>
+        * used a documemented version of the options file from 
+          source by Jim Knoble <jmknoble@mercury.interpath.net>
+        * Removed /etc/ppp/ppp-connect script
+        * Added /etc/ppp/chatscript called by the options file
+        * Added empty ip-up and ip-down scripts.
+
+Sun Jan 28 22:34:09 GMT 1996  Alvar Bray <alvar@meiko.co.uk>
+        * Upgraded to version ppp-2.2.0e using CVS
+        * Renamed package ppp-2.2.0e
+
+Wed Nov 22 15:31:15 GMT 1995  Alvar Bray <alvar@meiko.co.uk>
+        * Rebuilt using elf format - added libc5 dependency.
+        * Made purge remove all ppp files (bug #1827)
+        * Added missing kernel header stubs to /usr/include/net
+          (bug #1795)
+        * Removed reference to /etc/init.d/functions in
+          /etc/init.d/ppp (bug #1725)
+        * Added dependency on netbase (bug #1443)
+        * New README (bug#1059)
+        * New source using ppp-2.2.0.c from
+          sunsite.unc.edu:/pub/Linux/system/Network/serial
+
+Ian Murdock <imurdock@debian.org>
+        * added Debian GNU/Linux package maintenance system files
+        * changed Makefile variables in chat and pppd directories
+
+

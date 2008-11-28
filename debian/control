@@ -1,0 +1,51 @@
+Source: ppp
+Section: admin
+Priority: optional
+Maintainer: Marco d'Itri <md@linux.it>
+Uploaders: Eddy Petrișor <eddy.petrisor@gmail.com>, Frans Pop <fjp@debian.org>
+Build-Depends: debhelper (>> 4.1.17), libpcap0.8-dev, libpam0g-dev, zlib1g-dev
+Standards-Version: 3.7.2.2
+
+Package: ppp
+Section: admin
+Architecture: any
+Depends: ${shlibs:Depends}, libpam-modules, libpam-runtime (>= 0.76-13.1), netbase, procps
+Conflicts: ppp-pam, ppp-udeb, pppdcapiplugin (<= 1:3.7.2005-07-09-2), makedev (<< 2.3.1-56)
+Replaces: ppp-pam, ppp-udeb
+Suggests: iptables
+Description: Point-to-Point Protocol (PPP) - daemon
+ The Point-to-Point Protocol provides a standard way to transmit
+ datagrams over a serial link, as well as a standard way for the machines
+ at either end of the link to negotiate various optional characteristics
+ of the link.
+ .
+ This package is most commonly used to manage a modem for dial-up or
+ certain kinds of broadband connections.
+
+Package: ppp-udeb
+XC-Package-Type: udeb
+Section: debian-installer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ethernet-card-detection, ppp-modules, di-utils
+Provides: configured-network
+XB-Installer-Menu-Item: 1700
+Description: Point-to-Point Protocol (PPP) - package for Debian Installer
+ The Point-to-Point Protocol provides a standard way to transmit
+ datagrams over a serial link, as well as a standard way for the machines
+ at either end of the link to negotiate various optional characteristics
+ of the link.
+ .
+ This package is a minimal ppp package used by the Debian Installer.
+
+Package: ppp-dev
+Section: devel
+Architecture: all
+Priority: extra
+Depends: ${shlibs:Depends}
+Description: Point-to-Point Protocol (PPP) - development files
+ The Point-to-Point Protocol provides a standard way to transmit
+ datagrams over a serial link, as well as a standard way for the machines
+ at either end of the link to negotiate various optional characteristics
+ of the link.
+ .
+ This package provides files needed to build pppd-related software.

@@ -1,0 +1,20 @@
+Build-Depends: libatm1-dev
+
+PPP over ATM plugin
+~~~~~~~~~~~~~~~~~~~
+The ppp package does not explicitly depend on the libatm1 package.
+This package needs to be installed for the pppoatm.so plugin to work.
+
+
+diff -ruNp ppp-2.4.3.orig/pppd/plugins/pppoatm/Makefile.linux ppp-2.4.3/pppd/plugins/pppoatm/Makefile.linux
+--- ppp-2.4.3.orig/pppd/plugins/pppoatm/Makefile.linux	2004-11-14 02:12:10.000000000 +0100
++++ ppp-2.4.3/pppd/plugins/pppoatm/Makefile.linux	2005-02-20 19:07:28.326214664 +0100
+@@ -19,7 +19,7 @@ PLUGIN_OBJS := pppoatm.o 
+ # or leave it unset to build the few routines we actually _use_ into
+ # the plugin directly.
+ #
+-#HAVE_LIBATM=yes
++HAVE_LIBATM=yes
+ 
+ ifdef HAVE_LIBATM
+ LIBS := -latm

@@ -1,0 +1,12 @@
+diff -ruNp ppp-2.4.3.orig/pppd/plugins/pppoatm/pppoatm.c ppp-2.4.3/pppd/plugins/pppoatm/pppoatm.c
+--- ppp-2.4.3.orig/pppd/plugins/pppoatm/pppoatm.c	2004-11-06 07:55:28.000000000 +0100
++++ ppp-2.4.3/pppd/plugins/pppoatm/pppoatm.c	2005-02-20 19:07:08.260265152 +0100
+@@ -133,7 +133,7 @@ static int connect_pppoatm(void)
+ 	int fd;
+ 	struct atm_qos qos;
+ 
+-	system ("/sbin/modprobe pppoatm");
++	/*system ("/sbin/modprobe pppoatm");*/
+ 
+ 	if (!device_got_set)
+ 		no_device_given_pppoatm();

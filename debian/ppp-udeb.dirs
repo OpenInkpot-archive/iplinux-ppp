@@ -1,0 +1,4 @@
+etc/network/
+etc/ppp/peers/
+usr/lib/pppd/
+usr/sbin/

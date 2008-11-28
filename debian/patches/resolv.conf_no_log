@@ -1,0 +1,12 @@
+diff -ruNp ppp.orig/pppd/ipcp.c ppp/pppd/ipcp.c
+--- ppp.orig/pppd/ipcp.c	2004-12-30 17:21:02.000000000 +0100
++++ ppp/pppd/ipcp.c	2004-12-30 17:19:00.000000000 +0100
+@@ -2009,7 +2009,7 @@ create_resolv(peerdns1, peerdns2)
+ 
+     f = fopen(_PATH_RESOLV, "w");
+     if (f == NULL) {
+-	error("Failed to create %s: %m", _PATH_RESOLV);
++	/* error("Failed to create %s: %m", _PATH_RESOLV); */
+ 	return;
+     }
+ 
