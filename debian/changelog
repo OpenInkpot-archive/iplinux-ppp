@@ -1,3 +1,9 @@
+ppp (2.4.4rel-10.1.1) asimov; urgency=low
+
+  * IPlinux port
+
+ -- Yauhen Kharuzhy <jekhor@gmail.com>  Wed, 10 Jun 2009 09:31:06 +0300
+
 ppp (2.4.4rel-10.1) unstable; urgency=low
 
   * Non-maintainer upload.
