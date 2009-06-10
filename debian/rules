@@ -96,7 +96,12 @@ install: $(STAMP_DIR)/build $(STAMP_DIR)/build-udeb checkroot
 	NOISY=1 \
 	$(MAKE) -f debian/sys-build.mk source.command SOURCE_CMD=" \
 		$(MAKE) install DESTDIR=$D/usr/ \
-	"
+		COPTS=\"-Os -fomit-frame-pointer\" \
+		CHAPMS= USE_CRYPT= NO_CRYPT_HACK=1 MPPE= \
+		FILTER= HAVE_MULTILINK= USE_TDB= \
+		HAS_SHADOW= USE_PAM= HAVE_INET6= \
+		CBCP= USE_SRP= MAXOCTETS= USE_BUILTIN_CRYPTO=1 \
+		"
 
 #	{ echo "Changelog extracted from README file:" ; \
 #	  echo ; \
