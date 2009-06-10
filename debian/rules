@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 SHELL=/bin/bash -e
 
-BUILD_UDEB := 1
+BUILD_UDEB := 0
 
 include debian/scripts/vars
 
@@ -59,7 +59,15 @@ $(STAMP_DIR)/build: $(STAMP_DIR)/configure
 	dh_testdir
 	NOISY=1 \
 	$(MAKE) -f debian/sys-build.mk source.command SOURCE_CMD=" \
-		$(MAKE) \
+		$(MAKE) COPTS=\"-Os -fomit-frame-pointer\" \
+			CHAPMS= USE_CRYPT= NO_CRYPT_HACK=1 MPPE= \
+			FILTER= HAVE_MULTILINK= USE_TDB= \
+			HAS_SHADOW= USE_PAM= HAVE_INET6= \
+			CBCP= USE_SRP= MAXOCTETS= USE_BUILTIN_CRYPTO=1 \
+		&& \
+		cd plugins/ && \
+		$(MAKE) COPTS=\"-Os -fomit-frame-pointer\" \
+			SUBDIRS='rp-pppoe pppoatm' PLUGINS= \
 	"
 	touch $@
 
@@ -94,10 +102,10 @@ install: $(STAMP_DIR)/build $(STAMP_DIR)/build-udeb checkroot
 		$(MAKE) install DESTDIR=$D/usr/ \
 	"
 
-	{ echo "Changelog extracted from README file:" ; \
-	  echo ; \
-	  sed -e "/^What's new in ppp-/,/package, see the Changes-2.3 file./!d" $B/README ; \
-	} > $B/changelog-from-README
+#	{ echo "Changelog extracted from README file:" ; \
+#	  echo ; \
+#	  sed -e "/^What's new in ppp-/,/package, see the Changes-2.3 file./!d" $B/README ; \
+#	} > $B/changelog-from-README
 
 binary-arch: install
 	rm -rf $D/etc/ppp/*-secrets
@@ -119,17 +127,17 @@ binary-arch: install
 		$D/usr/share/ppp/
 	install -m644 extra/chatscript.pap $D/etc/chatscripts/pap
 
-	dh_installchangelogs	-p ppp \
-		$B/changelog-from-README Changes-2.3
-	dh_installdocs		-p ppp \
-		$(addprefix $B/,$(DOCS)) $(addprefix extra/,$(DOCS2))
-	dh_installexamples $B/scripts/ extra/autopppd extra/userscripts-* \
-		extra/popp extra/filters extra/options.ttyXX \
-		extra/peers-* extra/interfaces extra/per-linkname
-	# use our own version, not the upstream one
-	mv $D/usr/share/doc/ppp/examples/autopppd \
-		$D/usr/share/doc/ppp/examples/scripts/
-	dh_installman extra/pon.1 extra/pppoe-discovery.8
+#	dh_installchangelogs	-p ppp \
+#		$B/changelog-from-README Changes-2.3
+#	dh_installdocs		-p ppp \
+#		$(addprefix $B/,$(DOCS)) $(addprefix extra/,$(DOCS2))
+#	dh_installexamples $B/scripts/ extra/autopppd extra/userscripts-* \
+#		extra/popp extra/filters extra/options.ttyXX \
+#		extra/peers-* extra/interfaces extra/per-linkname
+#	# use our own version, not the upstream one
+#	mv $D/usr/share/doc/ppp/examples/autopppd \
+#		$D/usr/share/doc/ppp/examples/scripts/
+#	dh_installman extra/pon.1 extra/pppoe-discovery.8
 	dh_link
 	dh_installlogrotate
 	dh_installinit --init-script=pppd-dns --no-start \
@@ -172,8 +180,8 @@ endif
 	dh_builddeb		-a
 
 binary-indep: install
-	dh_installchangelogs	-i $B/changelog-from-README Changes-2.3
-	dh_installdocs		-i
+#	dh_installchangelogs	-i $B/changelog-from-README Changes-2.3
+#	dh_installdocs		-i
 
 	dh_compress		-i
 	dh_fixperms		-i
