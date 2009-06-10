@@ -3,7 +3,7 @@ Section: core
 Priority: optional
 Maintainer: Yauhen Kharuzhy <jekhor@gmail.com>
 Build-Depends: debhelper (>> 4.1.17), libpcap0.8-dev, zlib1g-dev
-XCS-Cross-Build-Depends: libpcap0.8-dev, libpam0g-dev, zlib1g-dev
+XCS-Cross-Build-Depends: libpcap0.8-dev, zlib1g-dev
 XCS-Cross-Host-Build-Depends: debhelper (>> 4.1.17)
 Standards-Version: 3.7.2.2
 
