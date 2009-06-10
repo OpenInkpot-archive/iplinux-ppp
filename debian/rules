@@ -64,10 +64,6 @@ $(STAMP_DIR)/build: $(STAMP_DIR)/configure
 			FILTER= HAVE_MULTILINK= USE_TDB= \
 			HAS_SHADOW= USE_PAM= HAVE_INET6= \
 			CBCP= USE_SRP= MAXOCTETS= USE_BUILTIN_CRYPTO=1 \
-		&& \
-		cd plugins/ && \
-		$(MAKE) COPTS=\"-Os -fomit-frame-pointer\" \
-			SUBDIRS='rp-pppoe pppoatm' PLUGINS= \
 	"
 	touch $@
 
